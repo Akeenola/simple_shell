@@ -18,7 +18,7 @@ extern __sighandler_t signal(int __sig, __sighandler_t __handler);
 
 /* handles build ins */
 int checker(char **cmd, char *buf);
-void prompt_user(void);
+void prompt(void);
 void handle_signal(int m);
 char **tokenizer(char *line);
 char *check_path(char **path, char *cmd);
