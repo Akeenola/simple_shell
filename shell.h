@@ -28,7 +28,7 @@ void exit_cmd(char **command, char *line);
 
 void print_env(void);
 
-/* string handlers */
+/* string functions */
 int _strcmp(char *s1, char *s2);
 int _strlen(char *s);
 int _strncmp(char *s1, char *s2, int n);
