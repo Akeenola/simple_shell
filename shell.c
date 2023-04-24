@@ -33,7 +33,7 @@ int main(int argc, char **argv, char *env[])
 		command = tokenizer(line);
 		if (command == NULL || *command == NULL || **command == '\0')
 			continue;
-		if (checker(command, line))
+		if (check(command, line))
 			continue;
 		path = find_path();
 		paths = tokenizer(path);
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char *env[])
 		if (!pathcommand)
 			perror(argv[0]);
 		else
-			execution(pathcommand, command);
+			execute(pathcommand, command);
 	}
 	if (linesize < 0 && flags.interactive)
 		write(STDERR_FILENO, "\n", 1);
