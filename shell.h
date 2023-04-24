@@ -39,7 +39,7 @@ void execution(char *cp, char **cmd);
 char *find_path(void);
 
 /* helper function for efficient free */
-void free_buffers(char **buf);
+void _free(char **buf);
 
 struct builtin
 {
