@@ -23,7 +23,7 @@ int main(int argc, char **argv, char *env[])
 		free_buffers(command);
 		free_buffers(paths);
 		free(pathcommand);
-		prompt_user();
+		prompt();
 		linesize = getline(&line, &buf, stdin);
 		if (linesize < 0)
 			break;
@@ -37,7 +37,7 @@ int main(int argc, char **argv, char *env[])
 			continue;
 		path = find_path();
 		paths = tokenizer(path);
-		pathcommand = test_path(paths, command[0]);
+		pathcommand = check_path(paths, command[0]);
 		if (!pathcommand)
 			perror(argv[0]);
 		else
