@@ -31,7 +31,7 @@ int handle_builtin(char **command, char *line)
 	}
 	else if (_strcmp(*command, builtin.exit) == 0)
 	{
-		exit_cmd(command, line);
+		_exit(command, line);
 		return (1);
 	}
 	return (0);
