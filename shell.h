@@ -24,7 +24,7 @@ char **tokenizer(char *line);
 char *check_path(char **path, char *cmd);
 char *append_path(char *path, char *command);
 int handle_builtin(char **command, char *line);
-void exit_cmd(char **command, char *line);
+void _exit(char **cmd, char *line);
 
 void print_env(void);
 
