@@ -1,31 +1,28 @@
 #include "shell.h"
 
 /**
-* print_s - prints a string of characters to the standard output
-* @s: string to be printed
-*
-* Return: number of characters printed
+ * _puts - prints a string
+ * @str: pointer to the string to print
+ * Return: void
 */
-int print_s(char *s)
+
+void _puts(char *str)
 {
-	int n = 0;
-
-	while (s[n] != '\0')
-	{
-		_putchar(s[n]);
-		n++;
-	}
-
-	return (n);
+int i = 0;
+while (str[i])
+{
+	_putchar(str[i]);
+	i++;
+}
 }
 
 /**
-* _putchar - prints the character c to standard output 
-* @c: The character to print
-*
-* Return: On success 1.
-* On error, -1 is returned and errno set appropriately
-*/
+ * _putchar - writes the character c to stdout
+ * @c: The character to print
+ *
+ * Return: On success 1.
+ * On error, -1 is returned, and errno is set appropriately.
+ */
 int _putchar(char c)
 {
 	return (write(1, &c, 1));
