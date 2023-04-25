@@ -1,48 +1,53 @@
 #include "shell.h"
 
 /**
-* tokenizer - generates tokens from given input
-* @line: to be tokenized
-*
-* Return: array of strings
-*/
-char **tokenizer(char *cmdline)
+ * *nbr_spaces - return the number of occurent of a string
+ * @s: string to check
+ * Return: int
+ */
+
+unsigned int nbr_spaces(char *s)
 {
-	char *bufp = NULL, *token = NULL, *buf = NULL, *delim = " :\t\r\n";
-	char **tokens = NULL;
-	int tokensize = 1;
-	size_t index = 0, flag = 0;
+	int i, cmpt = 0;
 
-	buf = _strdup(cmdline);
-	if (!buf)
-		return (NULL);
-	bufp = buf;
+	for (i = 0; s[i] != '\0'; i++)
+	{
+		if (s[i]  == ' ')
+			cmpt++;
+	}
 
-	while (*bufp)
-	{
-		if (_strchr(delim, *bufp) != NULL && flag == 0)
-		{
-			tokensize++;
-			flag = 1;
-		}
-		else if (_strchr(delim, *bufp) == NULL && flag == 1)
-			flag = 0;
-		bufp++;
-	}
-	tokens = malloc(sizeof(char *) * (tokensize + 1));
-	token = strtok(buf, delim);
-	while (token)
-	{
-		tokens[index] = _strdup(token);
-		if (tokens[index] == NULL)
-		{
-			free(tokens);
-			return (NULL);
-		}
-		token = strtok(NULL, delim);
-		index++;
-	}
-	tokens[index] = '\0';
-	free(buf);
-	return (tokens);
+	return (cmpt);
+}
+
+
+/**
+  *stringToTokens - split a sentence into multiple words.
+  *@str: the string passed as argument.
+  *Return: tokens
+  */
+char **stringToTokens(char *str)
+{
+int i = 0;
+const char separator[] = " ";
+int spaces = nbr_spaces(str);
+char **tokens = malloc(sizeof(char *) * (spaces + 1));
+char *token;
+
+if (!tokens)
+{
+	fprintf(stderr, "sh: allocation error\n");
+	exit(1);
+}
+
+token = strtok(str, separator);
+
+while (token != NULL)
+{
+	tokens[i] = token;
+	token = strtok(NULL, separator);
+	i++;
+}
+tokens[i] = NULL;
+
+return (tokens);
 }
