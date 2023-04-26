@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * execute - executes the command
+ * execution - executes the command
  * @cmd: command to run
  * Return: 0 on success1 -1 if cmd is exit and 1 on any other error
  */
-int execute(char **cmd)
+int execution(char **cmd)
 {
 
 	pid_t child_pid;
@@ -38,12 +38,12 @@ int execute(char **cmd)
 
 /**
  * main - main simple shell
- * @argc: number of arguments
- * @argv: list of command line arguments
+ * @ac: number of arguments
+ * @av: list of command line arguments
  * Return: Always 0, -1 on error.
  */
 
-int main(int argc, char **argv)
+int main(int ac, char **av)
 {
 
 	int response;
@@ -52,10 +52,10 @@ int main(int argc, char **argv)
 	int isPipe = 0;
 	char *buffer;
 
-	if (argc >= 2)
+	if (ac >= 2)
 	{
 		/*TODO: Handle cases where there is no argument, only the command*/
-		if (execve(argv[1], argv, NULL) == -1)
+		if (execve(av[1], av, NULL) == -1)
 		{
 			perror("Error");
 			exit(-1);
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 	buffer = (char *)malloc(bufsize * sizeof(char));
 	if (buffer == NULL)
 	{
-		perror("Unable to allocate buffer");
+		perror("Not aable to allocate buffer");
 		exit(1);
 	}
 
@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 		getline(&buffer, &bufsize, stdin);
 		buffer[_strlen(buffer) - 1] = '\0';
 		tokens = stringToTokens(buffer);
-		response = execute(tokens);
+		response = execution(tokens);
 	} while (isPipe && response != -1);
 
 	return (0);
