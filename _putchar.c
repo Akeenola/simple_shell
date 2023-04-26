@@ -1,8 +1,8 @@
-#include <unistd.h>
+#include "shell.h"
 
 /**
- * _putchar - printxs the character c to standard output
- * @c: The character to print
+ * _putchar - outputs c to standard output
+ * @c: Character to output
  *
  * Return: On success 1.
  * On error, -1 is returned, and errno is set appropriately.

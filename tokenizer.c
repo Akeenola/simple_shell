@@ -2,30 +2,30 @@
 
 /**
  * *nbr_spaces - return the number of occurent of a string
- * @s: string to check
- * Return: int
+ * @str: string to check
+ * Return: sum on Success
  */
 
-unsigned int nbr_spaces(char *s)
+unsigned int nbr_spaces(char *str)
 {
-	int i, cmpt = 0;
+	int i, sum;
+	sum= 0;
 
-	for (i = 0; s[i] != '\0'; i++)
+	for (i = 0; str[i] != '\0'; i++)
 	{
-		if (s[i]  == ' ')
-			cmpt++;
+		if (str[i]  == ' ')
+			sum++;
 	}
 
-	return (cmpt);
+	return (sum);
 }
 
 
 /**
   *stringToTokens - split a sentence into multiple words.
-  *@str: the string passed as argument.
-  *Return: tokens
+  *@str: the string passed as argument.  *Return: tokens on success
   */
-char **stringToTokens(char *str)
+char **strToTokens(char *str)
 {
 int i = 0;
 const char separator[] = " ";

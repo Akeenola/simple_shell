@@ -8,20 +8,20 @@
 int execution(char **cmd)
 {
 
-	pid_t child_pid;
+	pid_t _pid;
 	int status;
 
 	if (strncmp("exit", cmd[0], 4) == 0)
 		return (-1);
 
-	child_pid = fork();
+	_pid = fork();
 
-	if (child_pid == -1)
+	if (_pid == -1)
 	{
 		perror("Error");
 		return (1);
 	}
-	else if (child_pid == 0)
+	else if (_pid == 0)
 	{
 		if (execve(cmd[0], cmd, NULL) == -1)
 		{
@@ -79,7 +79,7 @@ int main(int ac, char **av)
 
 		getline(&buffer, &bufsize, stdin);
 		buffer[_strlen(buffer) - 1] = '\0';
-		tokens = stringToTokens(buffer);
+		tokens = strToTokens(buffer);
 		response = execution(tokens);
 	} while (isPipe && response != -1);
 
