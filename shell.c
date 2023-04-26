@@ -74,7 +74,7 @@ int main(int ac, char **av)
 		if (isatty(fileno(stdin)))
 		{
 			isPipe = 1;
-			_puts("cisfun#: ");
+			_puts("($)");
 		}
 
 		getline(&buffer, &bufsize, stdin);
