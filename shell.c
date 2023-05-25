@@ -1,87 +1,106 @@
+
 #include "shell.h"
 
 /**
- * execution - executes the command
- * @cmd: command to run
- * Return: 0 on success1 -1 if cmd is exit and 1 on any other error
+ * sig_handler - checks if Ctrl C is pressed
+ * @sig_num: int
  */
-int execution(char **cmd)
+void sig_handler(int sig_num)
 {
-
-	pid_t _pid;
-	int status;
-
-	if (strncmp("exit", cmd[0], 4) == 0)
-		return (-1);
-
-	_pid = fork();
-
-	if (_pid == -1)
+	if (sig_num == SIGINT)
 	{
-		perror("Error");
-		return (1);
+		_puts("\n#cisfun$ ");
 	}
-	else if (_pid == 0)
-	{
-		if (execve(cmd[0], cmd, NULL) == -1)
-		{
-			perror("Error");
-			exit(-1);
-		}
-	}
-	else
-		wait(&status);
-
-	return (0);
 }
-
 
 /**
- * main - main simple shell
- * @ac: number of arguments
- * @av: list of command line arguments
- * Return: Always 0, -1 on error.
+* _EOF - handles the End of File
+* @len: return value of getline function
+* @buff: buffer
+ */
+void _EOF(int len, char *buff)
+{
+	(void)buff;
+	if (len == -1)
+	{
+		if (isatty(STDIN_FILENO))
+		{
+			_puts("\n");
+			free(buff);
+		}
+		exit(0);
+	}
+}
+/**
+  * _isatty - verif if terminal
+  */
+
+void _isatty(void)
+{
+	if (isatty(STDIN_FILENO))
+		_puts("#cisfun$ ");
+}
+/**
+ * main - Shell
+ * Return: 0 on success
  */
 
-int main(int ac, char **av)
+int main(void)
 {
+	ssize_t len = 0;
+	char *buff = NULL, *value, *pathname, **arv;
+	size_t size = 0;
+	list_path *head = '\0';
+	void (*f)(char **);
 
-	int response;
-	char **tokens;
-	size_t bufsize = BUFSIZ;
-	int isPipe = 0;
-	char *buffer;
-
-	if (ac >= 2)
+	signal(SIGINT, sig_handler);
+	while (len != EOF)
 	{
-		/*TODO: Handle cases where there is no argument, only the command*/
-		if (execve(av[1], av, NULL) == -1)
+		_isatty();
+		len = getline(&buff, &size, stdin);
+		_EOF(len, buff);
+		arv = splitstring(buff, " \n");
+		if (!arv || !arv[0])
+			execute(arv);
+		else
 		{
-			perror("Error");
-			exit(-1);
+			value = _getenv("PATH");
+			head = linkpath(value);
+			pathname = _which(arv[0], head);
+			f = checkbuild(arv);
+			if (f)
+			{
+				free(buff);
+				f(arv);
+			}
+			else if (!pathname)
+				execute(arv);
+			else if (pathname)
+			{
+				free(arv[0]);
+				arv[0] = pathname;
+				execute(arv);
+			}
 		}
-		return (0);
 	}
-
-	buffer = (char *)malloc(bufsize * sizeof(char));
-	if (buffer == NULL)
-	{
-		perror("Not aable to allocate buffer");
-		exit(1);
-	}
-
-	do {
-		if (isatty(fileno(stdin)))
-		{
-			isPipe = 1;
-			_puts("($)");
-		}
-
-		getline(&buffer, &bufsize, stdin);
-		buffer[_strlen(buffer) - 1] = '\0';
-		tokens = strToTokens(buffer);
-		response = execution(tokens);
-	} while (isPipe && response != -1);
-
+	free_list(head);
+	freearv(arv);
+	free(buff);
 	return (0);
 }
+
+ 
+
+
+	
+
+
+
+
+	
+	
+	
+	
+	
+
+	
